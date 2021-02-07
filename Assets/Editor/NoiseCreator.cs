@@ -10,6 +10,10 @@ public class NoiseCreator : EditorWindow
     private int s_width = 128;
     private int s_height = 128;
     private Texture2D s_tex = null;
+    private int s_octaves = 4;
+    private float s_persistence = 0.5f;
+    private string str_persistence = "0.5";
+    private bool isSmooth = true;
 
     [MenuItem("Tools/Noise Creator")]
     private static void ShowWindow()
@@ -28,44 +32,27 @@ public class NoiseCreator : EditorWindow
         s_height = int.Parse(GUILayout.TextField(s_height.ToString()));
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
+        GUILayout.Label("倍频(octaves,分形用):", GUILayout.Width(150));
+        s_octaves = int.Parse(GUILayout.TextField(s_octaves.ToString()));
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("持续度(persistence,分形用):", GUILayout.Width(150));
+        str_persistence = GUILayout.TextField(str_persistence);
+        float.TryParse(str_persistence, out s_persistence);
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        isSmooth = GUILayout.Toggle(isSmooth, "光滑(分形用)");
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
         if (GUILayout.Button("创建白噪声纹理"))
         {
-            Create2D(WhiteNoise());
+            Create2D(NoiseFactory.GetNoise(s_width, s_height, NoiseType.White));
         }
         if (GUILayout.Button("创建分形白噪声纹理"))
         {
-            //Create2D(FractalWhiteNoise(s_width, s_height));
+            Create2D(NoiseFactory.GetFractalNoise(s_width, s_height, s_octaves, s_persistence, isSmooth, NoiseType.FractalWhite));
         }
         GUILayout.EndHorizontal();
-    }
-
-    private Color[] WhiteNoise()
-    {
-        Color[] colors = new Color[s_width * s_height];
-        for (int i = 0; i < s_height; i++)
-            for (int j = 0; j < s_width; j++)
-            {
-                float r = (Random1D(j, i) + 1) / 2f;
-                colors[j + i * s_width] = new Color(r, r, r, 1);
-            }
-        return colors;
-    }
-
-    private float Random1D()
-    {
-        return Random.Range(0f, 1f);
-    }
-    private float Random1D(int px)
-    {
-        int n = px;
-        n = (n << 13) ^ n;
-        return (1f - (n * (n * n * 15731 + 789221) + 1376312589 & 0x7fffffff) / 1073741824f);
-    }
-    private float Random1D(int x, int y)
-    {
-        int n = 12211 * x + 7549 * y;
-        n = (n << 13) ^ n;
-        return (1f - (n * (n * n * 15731 + 789221) + 1376312589 & 0x7fffffff) / 1073741824f);
     }
 
     private void Create2D(Color[] colors)
