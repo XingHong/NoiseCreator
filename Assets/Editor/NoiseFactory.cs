@@ -2,39 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum NoiseType { White, FractalWhite };
+public enum NoiseType { White, FractalWhite, Perlin, FractalPerlin };
 
 public static class NoiseFactory
 {
-    static public Color[] GetNoise(int w, int h, NoiseType nType)
+
+    static public Color[] GetNoise(NoiseInfo info, NoiseType nType)
     {
         INoiseBase noise = null;
-
         switch (nType)
         {
             case NoiseType.White:
-                noise = new WiteNoise(w, h);
+                noise = new WiteNoise(info.width, info.height);
                 break;
-            default:
-                break;
-        }
-
-        return noise.GetColorResult();
-    }
-
-    static public Color[] GetFractalNoise(int w, int h, int octaves, float persistence, bool isSmooth, NoiseType nType)
-    {
-        INoiseBase noise = null;
-
-        switch (nType)
-        {
             case NoiseType.FractalWhite:
-                noise = new FractalWhiteNoise(w, h, octaves, persistence, isSmooth);
+                noise = new FractalWhiteNoise(info.width, info.height, info.octaves, info.persistence, info.isSmooth);
+                break;
+            case NoiseType.Perlin:
+                noise = new PerlinNoise(info);
+                break;
+            case NoiseType.FractalPerlin:
+                noise = new FractalPerlinNoise(info);
                 break;
             default:
                 break;
         }
-
         return noise.GetColorResult();
     }
 }

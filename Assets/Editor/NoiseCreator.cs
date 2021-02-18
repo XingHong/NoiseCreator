@@ -13,6 +13,8 @@ public class NoiseCreator : EditorWindow
     private int s_octaves = 4;
     private float s_persistence = 0.5f;
     private string str_persistence = "0.5";
+    private int s_seed = 99997;
+    private int s_proportion = 10;
     private bool isSmooth = true;
 
     [MenuItem("Tools/Noise Creator")]
@@ -46,13 +48,45 @@ public class NoiseCreator : EditorWindow
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("创建白噪声纹理"))
         {
-            Create2D(NoiseFactory.GetNoise(s_width, s_height, NoiseType.White));
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.White));
         }
         if (GUILayout.Button("创建分形白噪声纹理"))
         {
-            Create2D(NoiseFactory.GetFractalNoise(s_width, s_height, s_octaves, s_persistence, isSmooth, NoiseType.FractalWhite));
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalWhite));
         }
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("随机梯度种子(Perlin用):", GUILayout.Width(150));
+        s_seed = int.Parse(GUILayout.TextField(s_seed.ToString()));
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("网格比例(Perlin\\Worley用):", GUILayout.Width(150));
+        s_proportion = int.Parse(GUILayout.TextField(s_proportion.ToString()));
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("创建Perlin噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Perlin));
+        }
+        if (GUILayout.Button("创建分形Perlin噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalPerlin));
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    private NoiseInfo GetNoiseInfo()
+    {
+        NoiseInfo info = new NoiseInfo();
+        info.width = s_width;
+        info.height = s_height;
+        info.octaves = s_octaves;
+        info.persistence = s_persistence;
+        info.seed = s_seed;
+        info.proportion = s_proportion;
+        info.isSmooth = isSmooth;
+        return info;
     }
 
     private void Create2D(Color[] colors)
