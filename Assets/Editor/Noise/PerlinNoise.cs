@@ -30,24 +30,8 @@ public class PerlinNoise : BaseNoise, INoiseBase
     private void InitGradArray(int seed)
     {
         int max = Mathf.Max(noiseInfo.width, noiseInfo.height);
-        randomGrads = new Vector2[max + 1];
-        randomIndex = new int[max + 1];
-        for (int i = 0; i < max + 1; i++)
-        {
-            randomGrads[i] = NoiseHelper.RandomVector2D(i, seed).normalized;
-            randomIndex[i] = i;
-        }
-        //对随机排列表进行洗牌
-        int idx = max;
-        int temp = 0;
-        while (idx > 0)
-        {
-            int r = Random.Range(0, max);
-            temp = randomIndex[r];
-            randomIndex[r] = randomIndex[idx];
-            randomIndex[idx] = temp;
-            idx--;
-        }
+        randomGrads = NoiseHelper.GetRandomGradsArray(max + 1, seed);
+        randomIndex = NoiseHelper.GetRandomIndexArray(max + 1);
     }
 
     /// <summary>

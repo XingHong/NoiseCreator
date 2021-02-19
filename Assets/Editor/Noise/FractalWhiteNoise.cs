@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class FractalWhiteNoise : BaseNoise,INoiseBase
 {
-    private int s_octaves;
-    private float s_persistence;
-    private bool s_isSmooth;
+    private int octaves;
+    private float persistence;
+    private bool isSmooth;
 
     public FractalWhiteNoise(int w, int h, int octaves, float persistence, bool isSmooth) :base(w, h)
     {
-        s_octaves = octaves;
-        s_persistence = persistence;
-        s_isSmooth = isSmooth;
+        this.octaves = octaves;
+        this.persistence = persistence;
+        this.isSmooth = isSmooth;
 
         for (int i = 0; i < h; i++)
         {
@@ -33,10 +33,10 @@ public class FractalWhiteNoise : BaseNoise,INoiseBase
     private float FractalWhiteNoise1D(float x, float y)
     {
         var total = 0f;
-        for (int i = 0; i < s_octaves; i++)
+        for (int i = 0; i < octaves; i++)
         {
             var frequency = Mathf.Pow(2, i);
-            var amplitude = Mathf.Pow(s_persistence, i);
+            var amplitude = Mathf.Pow(persistence, i);
             total += InterpolatedNoise(x * frequency, y * frequency) * amplitude;
         }
         return total;
@@ -49,10 +49,10 @@ public class FractalWhiteNoise : BaseNoise,INoiseBase
         int iy = Mathf.FloorToInt(y);
         float fx = x - ix;
         float fy = y - iy;
-        var v1 = s_isSmooth ? Smooth2D(ix, iy) : NoiseHelper.Random2D(ix, iy);
-        var v2 = s_isSmooth ? Smooth2D(ix + 1, iy) : NoiseHelper.Random2D(ix + 1, iy);
-        var v3 = s_isSmooth ? Smooth2D(ix, iy + 1) : NoiseHelper.Random2D(ix, iy + 1);
-        var v4 = s_isSmooth ? Smooth2D(ix + 1, iy + 1) : NoiseHelper.Random2D(ix + 1, iy + 1);
+        var v1 = isSmooth ? Smooth2D(ix, iy) : NoiseHelper.Random2D(ix, iy);
+        var v2 = isSmooth ? Smooth2D(ix + 1, iy) : NoiseHelper.Random2D(ix + 1, iy);
+        var v3 = isSmooth ? Smooth2D(ix, iy + 1) : NoiseHelper.Random2D(ix, iy + 1);
+        var v4 = isSmooth ? Smooth2D(ix + 1, iy + 1) : NoiseHelper.Random2D(ix + 1, iy + 1);
         var i1 = cosine_interpolate(v1, v2, fx);
         var i2 = cosine_interpolate(v3, v4, fx);
         return cosine_interpolate(i1, i2, fy);

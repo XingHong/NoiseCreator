@@ -85,6 +85,17 @@ public class NoiseCreator : EditorWindow
             Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalValue));
         }
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("创建Simplex噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Simplex));
+        }
+        if (GUILayout.Button("创建分形Simplex噪声纹理"))
+        {
+            //Create2D(FractalSimplexNoise(s_width, s_height));
+        }
+        GUILayout.EndHorizontal();
     }
 
     private NoiseInfo GetNoiseInfo()

@@ -32,8 +32,6 @@ public class ValueNoise : BaseNoise, INoiseBase
     /// <returns></returns>
     protected float ValueNoise2D(float x, float y)
     {
-        int max = Mathf.Max(noiseInfo.width, noiseInfo.height);
-
         int x0 = Mathf.FloorToInt(x);
         int x1 = x0 + 1;
         int y0 = Mathf.FloorToInt(y);
