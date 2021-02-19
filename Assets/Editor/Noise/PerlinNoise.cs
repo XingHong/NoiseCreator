@@ -73,22 +73,8 @@ public class PerlinNoise : BaseNoise, INoiseBase
         var t = Vector2.Dot(randomGrads[(x1 + randomIndex[y0]) % max], v10);
         var u = Vector2.Dot(randomGrads[(x0 + randomIndex[y1]) % max], v01);
         var v = Vector2.Dot(randomGrads[(x1 + randomIndex[y1]) % max], v11);
-        var a = s + (t - s) * EaseCurveInterpolate(0, 1, x - x0);
-        var b = u + (v - u) * EaseCurveInterpolate(0, 1, x - x0);
-        return a + (b - a) * EaseCurveInterpolate(0, 1, y - y0);
-    }
-
-    /// <summary>
-    /// 缓和曲线插值，用的是传统的方法
-    /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <param name="x">比例，需在0~1之间</param>
-    /// <returns></returns>
-    private float EaseCurveInterpolate(float a, float b, float x)
-    {
-        if (x >= 1) return b;
-        if (x <= 0) return a;
-        return a + (b - a) * ((3 - 2 * x) * x * x);
+        var a = s + (t - s) * NoiseHelper.EaseCurveInterpolate(0, 1, x - x0);
+        var b = u + (v - u) * NoiseHelper.EaseCurveInterpolate(0, 1, x - x0);
+        return a + (b - a) * NoiseHelper.EaseCurveInterpolate(0, 1, y - y0);
     }
 }

@@ -74,6 +74,17 @@ public class NoiseCreator : EditorWindow
             Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalPerlin));
         }
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("创建Value噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Value));
+        }
+        if (GUILayout.Button("创建分形Value噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalValue));
+        }
+        GUILayout.EndHorizontal();
     }
 
     private NoiseInfo GetNoiseInfo()
