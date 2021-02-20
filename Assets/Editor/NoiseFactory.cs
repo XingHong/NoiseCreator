@@ -33,6 +33,9 @@ public static class NoiseFactory
             case NoiseType.Simplex:
                 noise = new SimplexNoise(info);
                 break;
+            case NoiseType.FractalSimplex:
+                noise = new FractalSimplexNoise(info);
+                break;
             default:
                 break;
         }

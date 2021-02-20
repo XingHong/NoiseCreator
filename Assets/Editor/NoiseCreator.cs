@@ -93,7 +93,7 @@ public class NoiseCreator : EditorWindow
         }
         if (GUILayout.Button("创建分形Simplex噪声纹理"))
         {
-            //Create2D(FractalSimplexNoise(s_width, s_height));
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalSimplex));
         }
         GUILayout.EndHorizontal();
     }

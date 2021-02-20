@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimplexNoise : BaseNoise, INoiseBase
 {
-    NoiseInfo noiseInfo;
+    protected NoiseInfo noiseInfo;
     private Vector2[] randomGrads;
     private int[] randomIndex;
 
