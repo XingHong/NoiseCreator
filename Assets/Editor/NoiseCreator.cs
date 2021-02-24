@@ -16,6 +16,9 @@ public class NoiseCreator : EditorWindow
     private int s_seed = 99997;
     private int s_proportion = 10;
     private bool isSmooth = true;
+    private int s_maxPoint = 10;
+    private float s_worleySize = 100.0f;
+    private string str_worleySize = "100.0";
 
     [MenuItem("Tools/Noise Creator")]
     private static void ShowWindow()
@@ -96,6 +99,27 @@ public class NoiseCreator : EditorWindow
             Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalSimplex));
         }
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("特征点数量(Worley用):", GUILayout.Width(150));
+        s_maxPoint = int.Parse(GUILayout.TextField(s_maxPoint.ToString()));
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("晶格比例(Worley用):", GUILayout.Width(150));
+        str_worleySize = GUILayout.TextField(str_worleySize);
+        float.TryParse(str_persistence, out s_worleySize);
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("创建Worley噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Worley));
+        }
+        if (GUILayout.Button("创建Perlin-Worley噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalWorley));
+        }
+        GUILayout.EndHorizontal();
     }
 
     private NoiseInfo GetNoiseInfo()
@@ -108,6 +132,8 @@ public class NoiseCreator : EditorWindow
         info.seed = s_seed;
         info.proportion = s_proportion;
         info.isSmooth = isSmooth;
+        info.maxPoint = s_maxPoint;
+        info.worleySize = s_worleySize;
         return info;
     }
 

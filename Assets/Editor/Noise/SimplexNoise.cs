@@ -16,7 +16,7 @@ public class SimplexNoise : BaseNoise, INoiseBase
         {
             for (int j = 0; j < info.width; j++)
             {
-                float r = (CreateNoise(new Vector2(j / (float)info.proportion, i / (float)info.proportion)) + 1) / 2f ;
+                float r = (CreateNoise(new Vector2(j / (float)info.proportion, i / (float)info.proportion)) + 1) / 2f;
                 colors[j + i * info.width] = new Color(r, r, r, 1);
             }
         }

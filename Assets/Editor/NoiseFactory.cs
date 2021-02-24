@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum NoiseType { White, FractalWhite, Perlin, FractalPerlin, Value, FractalValue, Simplex, FractalSimplex };
+public enum NoiseType { White, FractalWhite, Perlin, FractalPerlin, Value, FractalValue, Simplex, FractalSimplex,Worley, FractalWorley };
 
 public static class NoiseFactory
 {
@@ -35,6 +35,9 @@ public static class NoiseFactory
                 break;
             case NoiseType.FractalSimplex:
                 noise = new FractalSimplexNoise(info);
+                break;
+            case NoiseType.Worley:
+                noise = new WorleyNoise(info);
                 break;
             default:
                 break;

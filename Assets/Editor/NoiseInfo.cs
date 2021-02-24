@@ -11,4 +11,6 @@ public class NoiseInfo
     public int seed;
     public int proportion;
     public bool isSmooth;
+    public int maxPoint;
+    public float worleySize;
 }
