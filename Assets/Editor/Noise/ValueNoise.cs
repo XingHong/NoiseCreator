@@ -44,6 +44,22 @@ public class ValueNoise : BaseNoise, INoiseBase
         var a = s + (t - s) * NoiseHelper.EaseCurveInterpolate(0, 1, x - x0);
         var b = u + (v - u) * NoiseHelper.EaseCurveInterpolate(0, 1, x - x0);
         return a + (b - a) * NoiseHelper.EaseCurveInterpolate(0, 1, y - y0);
+        /*var d00 = SeamlessNoise(x0, y0);
+        var d10 = SeamlessNoise(x1, y0);
+        var d01 = SeamlessNoise(x0, y1);
+        var d11 = SeamlessNoise(x1, y1);
+        var dx0 = NoiseHelper.EaseCurveInterpolate(d00, d10, x - x0);
+        var dx1 = NoiseHelper.EaseCurveInterpolate(d01, d11, x - x0);
+        return NoiseHelper.EaseCurveInterpolate(dx0, dx1, y - y0);*/
     }
 
+    private float SeamlessNoise(float x, float y)
+    {
+        float x0 = Mathf.Cos(x * 2 * Mathf.PI);
+        float x1 = Mathf.Sin(x * 2 * Mathf.PI);
+        float x2 = Mathf.Cos(y * 2 * Mathf.PI);
+        float x3 = Mathf.Sin(y * 2 * Mathf.PI);
+        float[] r4 = NoiseHelper.Random4D(x0, x1, x2, x3);
+        return r4[0];
+    }
 }

@@ -19,6 +19,8 @@ public class NoiseCreator : EditorWindow
     private int s_maxPoint = 10;
     private float s_worleySize = 100.0f;
     private string str_worleySize = "100.0";
+    private float s_randomStrength = 0.0f;
+    private float s_period = 1;
 
     [MenuItem("Tools/Noise Creator")]
     private static void ShowWindow()
@@ -116,6 +118,13 @@ public class NoiseCreator : EditorWindow
             Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Worley));
         }
         GUILayout.EndHorizontal();
+
+        /*GUILayout.BeginHorizontal();
+        GUILayout.Label("随机强度(平铺功能使用0-1):", GUILayout.Width(150));
+        s_randomStrength = GUILayout.HorizontalSlider(s_randomStrength, 0.0f, 1.0f);
+        GUILayout.Label("周期(平铺功能使用1-256):", GUILayout.Width(150));
+        s_period = GUILayout.HorizontalSlider(s_period, 1.0f, 256.0f);
+        GUILayout.EndHorizontal();*/
     }
 
     private NoiseInfo GetNoiseInfo()

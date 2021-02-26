@@ -23,7 +23,6 @@ public class WorleyNoise : BaseNoise, INoiseBase
             {
                 //float r = (CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize) + 1) / 2.0f;
                 float r = CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize);
-
                 colors[j + i * info.width] = new Color(r, r, r, 1);
             }
         }

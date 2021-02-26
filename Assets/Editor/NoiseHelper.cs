@@ -23,6 +23,38 @@ public static class NoiseHelper
         return res;
     }
 
+    public static float[] Random4D(float x, float y, float z, float w)
+    {
+        Vector4 p = new Vector4(x, y, z, w);
+        Vector4 v1 = new Vector4(114.5f, 141.9f, 198.1f, 175.5f);
+        Vector4 v2 = new Vector4(364.3f, 648.8f, 946.4f, 431.7f);
+        Vector4 v3 = new Vector4(190.3f, 233.5f, 716.9f, 362.0f);
+        Vector4 v4 = new Vector4(273.1f, 558.4f, 113.05f, 285.4f);
+        Vector4 resultP = new Vector4(
+            Vector4.Dot(p, v1),
+            Vector4.Dot(p, v2),
+            Vector4.Dot(p, v3),
+            Vector4.Dot(p, v4)
+            );
+        float[] result = new float[4];
+        for (int i = 0; i < 4; ++i)
+        {
+            result[i] = Frac(Sin(resultP[i]) * 643.1f);
+        }
+        return result;
+    }
+
+    //参考unity Mathematics库
+    private static float Sin(float x)
+    {
+        return (float)System.Math.Sin(x);
+    }
+
+    private static float Frac(float x)
+    {
+        return x - Mathf.FloorToInt(x);
+    }
+
     /// <summary>
     /// 缓和曲线插值，用的是传统的方法
     /// </summary>
