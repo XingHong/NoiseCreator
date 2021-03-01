@@ -13,4 +13,7 @@ public class NoiseInfo
     public bool isSmooth;
     public int maxPoint;
     public float worleySize;
+    public float randomStrength;
+    public float period;
+    public bool isSeamless;
 }

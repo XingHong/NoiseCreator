@@ -44,7 +44,7 @@ public static class NoiseHelper
         return result;
     }
 
-    //参考unity Mathematics库
+    //参考unity Mathematics库, https://github.com/Unity-Technologies/Unity.Mathematics
     private static float Sin(float x)
     {
         return (float)System.Math.Sin(x);
@@ -53,6 +53,16 @@ public static class NoiseHelper
     private static float Frac(float x)
     {
         return x - Mathf.FloorToInt(x);
+    }
+
+    public static float SeamlessNoise(float x, float y, float period)
+    {
+        float x0 = Mathf.Cos(x * 2f * Mathf.PI / period);
+        float x1 = Mathf.Sin(x * 2f * Mathf.PI / period);
+        float x2 = Mathf.Cos(y * 2f * Mathf.PI / period);
+        float x3 = Mathf.Sin(y * 2f * Mathf.PI / period);
+        float[] r4 = NoiseHelper.Random4D(x0, x1, x2, x3);
+        return r4[0];
     }
 
     /// <summary>

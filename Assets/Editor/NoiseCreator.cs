@@ -20,7 +20,8 @@ public class NoiseCreator : EditorWindow
     private float s_worleySize = 100.0f;
     private string str_worleySize = "100.0";
     private float s_randomStrength = 0.0f;
-    private float s_period = 1;
+    private float s_period = 4.0f;
+    public bool isSeamless = false;
 
     [MenuItem("Tools/Noise Creator")]
     private static void ShowWindow()
@@ -119,12 +120,20 @@ public class NoiseCreator : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        /*GUILayout.BeginHorizontal();
-        GUILayout.Label("随机强度(平铺功能使用0-1):", GUILayout.Width(150));
-        s_randomStrength = GUILayout.HorizontalSlider(s_randomStrength, 0.0f, 1.0f);
-        GUILayout.Label("周期(平铺功能使用1-256):", GUILayout.Width(150));
-        s_period = GUILayout.HorizontalSlider(s_period, 1.0f, 256.0f);
-        GUILayout.EndHorizontal();*/
+        GUILayout.BeginHorizontal();
+        isSeamless = GUILayout.Toggle(isSeamless, "平铺噪声");
+        GUILayout.EndHorizontal();
+        if (isSeamless)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("随机强度(无缝噪声 使用0-1):" + s_randomStrength, GUILayout.Width(200));
+            s_randomStrength = GUILayout.HorizontalSlider(s_randomStrength, 0.0f, 1.0f);
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("周期(无缝噪声 使用1-256):" + Mathf.FloorToInt(s_period), GUILayout.Width(200));
+            s_period = GUILayout.HorizontalSlider(s_period, 1.0f, 256.0f);
+            GUILayout.EndHorizontal();
+        }
     }
 
     private NoiseInfo GetNoiseInfo()
@@ -139,6 +148,9 @@ public class NoiseCreator : EditorWindow
         info.isSmooth = isSmooth;
         info.maxPoint = s_maxPoint;
         info.worleySize = s_worleySize;
+        info.isSeamless = isSeamless;
+        info.randomStrength = s_randomStrength;
+        info.period = Mathf.FloorToInt(s_period);
         return info;
     }
 
