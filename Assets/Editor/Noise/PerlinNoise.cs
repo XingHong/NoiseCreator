@@ -34,7 +34,7 @@ public class PerlinNoise : BaseNoise, INoiseBase
     {
         if (noiseInfo.isSeamless)
         {
-            SeamlessValueNoise(x, y, noiseInfo.period);
+            SeamlessPerlinNoise(x, y, noiseInfo.period);
         }
         return PerlinNoise2D(x, y);
     }
@@ -74,7 +74,7 @@ public class PerlinNoise : BaseNoise, INoiseBase
         return a + (b - a) * NoiseHelper.EaseCurveInterpolate(0, 1, y - y0);
     }
 
-    protected float SeamlessValueNoise(float x, float y, float period)
+    protected float SeamlessPerlinNoise(float x, float y, float period)
     {
         Vector2 p = new Vector2(x * period, y * period);
         int x0 = Mathf.FloorToInt(p.x);
@@ -101,6 +101,7 @@ public class PerlinNoise : BaseNoise, INoiseBase
         float i = r[0];
         float index = i - Mathf.FloorToInt(i);
         index *= randomGrads.Length;
+        //Debug.Log("index:" + index);
         return randomGrads[Mathf.FloorToInt(index)];
     }
 }
