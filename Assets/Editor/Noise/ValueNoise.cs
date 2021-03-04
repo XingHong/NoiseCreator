@@ -67,12 +67,18 @@ public class ValueNoise : BaseNoise, INoiseBase
         int y0 = Mathf.FloorToInt(p.y);
         int y1 = y0 + 1;
 
-        var d00 = NoiseHelper.SeamlessNoise(x0, y0, period);
-        var d10 = NoiseHelper.SeamlessNoise(x1, y0, period);
-        var d01 = NoiseHelper.SeamlessNoise(x0, y1, period);
-        var d11 = NoiseHelper.SeamlessNoise(x1, y1, period);
+        var d00 = GetValue(x0, y0, period);
+        var d10 = GetValue(x1, y0, period);
+        var d01 = GetValue(x0, y1, period);
+        var d11 = GetValue(x1, y1, period);
         var dx0 = NoiseHelper.EaseCurveInterpolate(d00, d10, p.x - x0);
         var dx1 = NoiseHelper.EaseCurveInterpolate(d01, d11, p.x - x0);
         return NoiseHelper.EaseCurveInterpolate(dx0, dx1, p.y - y0);
+    }
+
+    private float GetValue(float x, float y, float period)
+    {
+        float[] r = NoiseHelper.SeamlessNoise(x, y, period);
+        return r[0];
     }
 }

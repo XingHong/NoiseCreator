@@ -55,14 +55,14 @@ public static class NoiseHelper
         return x - Mathf.FloorToInt(x);
     }
 
-    public static float SeamlessNoise(float x, float y, float period)
+    public static float[] SeamlessNoise(float x, float y, float period)
     {
         float x0 = Mathf.Cos(x * 2f * Mathf.PI / period);
         float x1 = Mathf.Sin(x * 2f * Mathf.PI / period);
         float x2 = Mathf.Cos(y * 2f * Mathf.PI / period);
         float x3 = Mathf.Sin(y * 2f * Mathf.PI / period);
         float[] r4 = NoiseHelper.Random4D(x0, x1, x2, x3);
-        return r4[0];
+        return r4;
     }
 
     /// <summary>
@@ -105,6 +105,17 @@ public static class NoiseHelper
         for (int i = 0; i < length; ++i)
         {
             arr[i] = RandomVector2D(i, seed).normalized;
+        }
+        return arr;
+    }
+
+    public static Vector2[] GetSeamlessRandomGradsArray(int seed)
+    {
+        Vector2[] arr = new Vector2[256];
+        for (int i = 0; i < 256; i++)
+        {
+            float rad = (i + seed) * 2f * Mathf.PI / 255f;
+            arr[i] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
         }
         return arr;
     }
