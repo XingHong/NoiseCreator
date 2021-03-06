@@ -58,7 +58,7 @@ public class WorleyNoise : BaseNoise, INoiseBase
         return WorleyNoise2D(x, y);
     }
 
-    private float WorleyNoise2D(float x, float y)
+    protected float WorleyNoise2D(float x, float y)
     {
         Vector2 p = new Vector2(x, y);
         float res = worleySpace.magnitude;
@@ -71,7 +71,7 @@ public class WorleyNoise : BaseNoise, INoiseBase
         //return res / worleySpace.magnitude;
     }
 
-    private float SeamlessWorleyNoise2D(float x, float y, float period)
+    protected float SeamlessWorleyNoise2D(float x, float y, float period)
     {
         Vector2 p = new Vector2(x * period, y * period);
         Vector2 v0 = Vector2.one;

@@ -118,6 +118,10 @@ public class NoiseCreator : EditorWindow
         {
             Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.Worley));
         }
+        if (GUILayout.Button("创建分形Worley噪声纹理"))
+        {
+            Create2D(NoiseFactory.GetNoise(GetNoiseInfo(), NoiseType.FractalWorley));
+        }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
