@@ -17,12 +17,20 @@ public class WorleyNoise : BaseNoise, INoiseBase
     {
         noiseInfo = info;
         PrepareRandomPoints(info.width / info.worleySize, info.height / info.worleySize, info.maxPoint);
+        float r;
         for (int i = 0; i < info.height; i++)
         {
             for (int j = 0; j < info.width; j++)
             {
-                //float r = (CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize) + 1) / 2.0f;
-                float r = CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize);
+                if (!noiseInfo.isSeamless)
+                {
+                    // r = (CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize) + 1) / 2.0f;
+                    r = CreateNoise(j / noiseInfo.worleySize, i / noiseInfo.worleySize);
+                }
+                else
+                {
+                   r =  (CreateNoise(j / (float)(info.width - 1), i / (float)(info.height - 1)));
+                }
                 colors[j + i * info.width] = new Color(r, r, r, 1);
             }
         }
@@ -43,6 +51,10 @@ public class WorleyNoise : BaseNoise, INoiseBase
 
     protected virtual float CreateNoise(float x, float y)
     {
+        if (noiseInfo.isSeamless)
+        {
+            return SeamlessWorleyNoise2D(x, y, noiseInfo.period);
+        }
         return WorleyNoise2D(x, y);
     }
 
@@ -57,5 +69,32 @@ public class WorleyNoise : BaseNoise, INoiseBase
         }
         return 1 - 4f * res / worleySpace.magnitude;
         //return res / worleySpace.magnitude;
+    }
+
+    private float SeamlessWorleyNoise2D(float x, float y, float period)
+    {
+        Vector2 p = new Vector2(x * period, y * period);
+        Vector2 v0 = Vector2.one;
+        v0.x = Mathf.FloorToInt(p.x);
+        v0.y = Mathf.FloorToInt(p.y);
+        float minDis = period * 3f;
+        for (int m = -1; m <= 2; m++)
+        {
+            for (int n = -1; n <= 2; n++)
+            {
+                Vector2 np = v0 + new Vector2(m, n);
+                np += (GetRandomVector(np, period) * 2 - Vector2.one) * noiseInfo.randomStrength;
+                float dist = Vector2.Distance(np, p);
+                if (dist < minDis)
+                    minDis = dist;
+            }
+        }
+        return 1.0f - minDis;
+    }
+
+    private Vector2 GetRandomVector(Vector2 p, float period)
+    {
+        float[] r = NoiseHelper.SeamlessNoise(p.x, p.y, period);
+        return new Vector2(r[0], r[1]);
     }
 }
